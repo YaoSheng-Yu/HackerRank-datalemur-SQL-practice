@@ -10,7 +10,7 @@ Hackers Table:
 Submissions Table:   
 ![image](https://github.com/YaoSheng-Yu/HackerRank-SQL-practice/assets/144596901/6eb00e34-b398-4085-a3fc-6af9c42b0815)  
 
-Sample Output
+Sample Output:  
 
 4071 Rose 191
 
