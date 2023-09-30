@@ -12,6 +12,8 @@ WHERE city LIKE 'a%' OR city LIKE 'E%' OR city LIKE 'I%' OR city LIKE 'O%' OR ci
 # Weather Observation Station 12
 Query the list of CITY names from STATION that do not start with vowels and do not end with vowels. Your result cannot contain duplicates.  
 
+---------------------------------------
+**Solution**
 ```mysql
 SELECT DISTINCT(city) 
 FROM STATION
