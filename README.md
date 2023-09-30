@@ -11,16 +11,15 @@ Hackers Table:
 Submissions Table: 
 ![image](https://github.com/YaoSheng-Yu/HackerRank-SQL-practice/assets/144596901/6eb00e34-b398-4085-a3fc-6af9c42b0815)
 
-
 Sample Output
 
-4071 Rose 191
-74842 Lisa 174
-84072 Bonnie 100
-4806 Angela 89
-26071 Frank 85
-80305 Kimberly 67
-49438 Patrick 43
+4071 Rose 191  
+74842 Lisa 174  
+84072 Bonnie 100  
+4806 Angela 89  
+26071 Frank 85  
+80305 Kimberly 67  
+49438 Patrick 43  
 ---------------------------------------
 **Solution**
 ```mysql
