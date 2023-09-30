@@ -1,3 +1,20 @@
+# Weather Observation Station 6
+Query the list of CITY names starting with vowels (i.e., a, e, i, o, or u) from STATION. Your result cannot contain duplicates.
+```mysql
+SELECT DISTINCT(city) 
+FROM station 
+WHERE city LIKE 'a%' OR city LIKE 'E%' OR city LIKE 'I%' OR city LIKE 'O%' OR city LIKE 'U%'
+```
+
+# Weather Observation Station 12
+Query the list of CITY names from STATION that do not start with vowels and do not end with vowels. Your result cannot contain duplicates.  
+
+```mysql
+SELECT DISTINCT(city) 
+FROM STATION
+WHERE LOWER(SUBSTR(CITY,1,1)) NOT IN ('a','e','i','o','u') AND LOWER(SUBSTR(CITY,LENGTH(CITY),1)) NOT IN ('a','e','i','o','u');   
+```
+
 # Contest Leaderboard  
 The total score of a hacker is the sum of their maximum scores for all of the challenges. Write a query to print the hacker_id, name, and total score of the hackers ordered by the descending score. If more than one hacker achieved the same total score, then sort the result by ascending hacker_id. Exclude all hackers with a total score of  from your result.
 
