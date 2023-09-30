@@ -1,5 +1,8 @@
 # Weather Observation Station 6
 Query the list of CITY names starting with vowels (i.e., a, e, i, o, or u) from STATION. Your result cannot contain duplicates.
+
+---------------------------------------
+**Solution**
 ```mysql
 SELECT DISTINCT(city) 
 FROM station 
@@ -51,4 +54,34 @@ FROM (
 ) AS ts
 JOIN Hackers h ON ts.hacker_id = h.hacker_id
 ORDER BY ts.total DESC, ts.hacker_id ASC;
+```
+
+# Type of Triangle
+Write a query identifying the type of each record in the TRIANGLES table using its three side lengths. Output one of the following statements for each record in the table:
+
+Equilateral: It's a triangle with  sides of equal length.  
+Isosceles: It's a triangle with  sides of equal length.  
+Scalene: It's a triangle with  sides of differing lengths.  
+Not A Triangle: The given values of A, B, and C don't form a triangle.  
+
+Sample InputL:  
+![image](https://github.com/YaoSheng-Yu/HackerRank-SQL-practice/assets/144596901/d8be910d-d0f0-4ef0-b00a-6026832382d4)  
+
+Sample Output:  
+Isosceles  
+Equilateral  
+Scalene  
+Not A Triangle  
+
+---------------------------------------
+**Solution**
+```mysql
+SELECT   
+CASE   
+    WHEN A + B <= C OR A + C <= B OR B + C <= A THEN 'Not A Triangle'  
+    WHEN A = B AND B = C THEN 'Equilateral'  
+    WHEN A = B OR B = C OR A = C THEN 'Isosceles'  
+    ELSE 'Scalene'  
+END  
+FROM TRIANGLES;  
 ```
