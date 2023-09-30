@@ -2,15 +2,6 @@
 ***Contest Leaderboard***
 The total score of a hacker is the sum of their maximum scores for all of the challenges. Write a query to print the hacker_id, name, and total score of the hackers ordered by the descending score. If more than one hacker achieved the same total score, then sort the result by ascending hacker_id. Exclude all hackers with a total score of  from your result.
 
-The following tables contain contest data:
-![image](https://github.com/YaoSheng-Yu/HackerRank-SQL-practice/assets/144596901/c53e2b00-f3b8-483f-bb36-1bf5459e7f12)
-
-Hackers: The hacker_id is the id of the hacker, and name is the name of the hacker. 
-
-Submissions: The submission_id is the id of the submission, hacker_id is the id of the hacker who made the submission, challenge_id is the id of the challenge for which the submission belongs to, and score is the score of the submission. 
-![image](https://github.com/YaoSheng-Yu/HackerRank-SQL-practice/assets/144596901/e7bd5366-ce5b-443d-9c1e-e8dd8bef3bb0)
-
-
 Sample Input
 
 Hackers Table: 
@@ -31,7 +22,7 @@ Sample Output
 80305 Kimberly 67
 49438 Patrick 43
 ---------------------------------------
-***Solution***
+**Solution**
 SELECT ts.hacker_id, h.name, ts.total
 FROM (
     SELECT hacker_id, SUM(top_score) AS total
