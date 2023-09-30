@@ -23,6 +23,7 @@ Sample Output
 49438 Patrick 43
 ---------------------------------------
 **Solution**
+```mysql
 SELECT ts.hacker_id, h.name, ts.total
 FROM (
     SELECT hacker_id, SUM(top_score) AS total
@@ -36,3 +37,4 @@ FROM (
 ) AS ts
 JOIN Hackers h ON ts.hacker_id = h.hacker_id
 ORDER BY ts.total DESC, ts.hacker_id ASC;
+```
