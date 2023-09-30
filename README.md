@@ -4,12 +4,12 @@ The total score of a hacker is the sum of their maximum scores for all of the ch
 
 Sample Input
 
-Hackers Table: 
-![image](https://github.com/YaoSheng-Yu/HackerRank-SQL-practice/assets/144596901/4711d68c-6878-487a-a32e-4eb3112b6512)
+Hackers Table:   
+![image](https://github.com/YaoSheng-Yu/HackerRank-SQL-practice/assets/144596901/4711d68c-6878-487a-a32e-4eb3112b6512)  
 
 
-Submissions Table: 
-![image](https://github.com/YaoSheng-Yu/HackerRank-SQL-practice/assets/144596901/6eb00e34-b398-4085-a3fc-6af9c42b0815)
+Submissions Table:   
+![image](https://github.com/YaoSheng-Yu/HackerRank-SQL-practice/assets/144596901/6eb00e34-b398-4085-a3fc-6af9c42b0815)  
 
 Sample Output
 
