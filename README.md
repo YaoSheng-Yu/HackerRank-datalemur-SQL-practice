@@ -12,13 +12,12 @@ Submissions Table:
 
 Sample Output
 
-4071 Rose 191  
+4071 Rose 191
+
 74842 Lisa 174  
+
 84072 Bonnie 100  
-4806 Angela 89  
-26071 Frank 85  
-80305 Kimberly 67  
-49438 Patrick 43  
+
 ---------------------------------------
 **Solution**
 ```mysql
