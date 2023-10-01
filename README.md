@@ -219,3 +219,26 @@ ORDER BY
     output;  
 ```
 ***Note*** Adding an order_priority column to the derived table to help control the ordering. The first subquery's results have a priority of 1, and the second subquery's results have a priority of 2, ensuring that the individual names come before the counts.
+
+# The Blunder
+
+Samantha was tasked with calculating the average monthly salaries for all employees in the EMPLOYEES table, but did not realize her keyboard's  key was broken until after completing the calculation. She wants your help finding the difference between her miscalculation (using salaries with any zeros removed), and the actual average salary.
+
+Write a query calculating the amount of error (i.e.: actual - miscalculated average monthly salaries), and round it up to the next integer.
+
+Sample Input  
+![image](https://github.com/YaoSheng-Yu/HackerRank-SQL-practice/assets/144596901/bd3007d6-79b1-475f-bc43-f629c842c65a)
+
+Sample Output  
+2061
+
+![image](https://github.com/YaoSheng-Yu/HackerRank-SQL-practice/assets/144596901/d90cdd79-093e-4998-85b3-1b97818d48aa)
+
+2159 - 98 = 2061  
+
+---------------------------------------
+**Solution**
+```mysql
+SELECT CEIL(AVG(salary) - AVG(CAST(REPLACE(CAST(salary AS CHAR), '0', '') AS UNSIGNED)))
+FROM EMPLOYEES;
+```
