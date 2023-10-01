@@ -242,3 +242,27 @@ Sample Output
 SELECT CEIL(AVG(salary) - AVG(CAST(REPLACE(CAST(salary AS CHAR), '0', '') AS UNSIGNED)))
 FROM EMPLOYEES;
 ```
+
+# Top Earners
+We define an employee's total earnings to be their monthly salary * months  worked, and the maximum total earnings to be the maximum total earnings for any employee in the Employee table. Write a query to find the maximum total earnings for all employees as well as the total number of employees who have maximum total earnings. Then print these values as 2 space-separated integers.
+
+Input Format  
+![image](https://github.com/YaoSheng-Yu/HackerRank-SQL-practice/assets/144596901/7eeb13ce-845f-4a71-8b6a-8c548899c195)  
+
+Sample Output
+
+69952 1  
+
+---------------------------------------
+**Solution**
+```mysql
+SELECT CONCAT(MAX(earnings), '  ', COUNT(employee_id))
+FROM (
+    SELECT months * salary AS earnings, employee_id
+    FROM Employee
+) AS top_earnings
+WHERE earnings = (
+    SELECT MAX(months * salary)
+    FROM Employee
+);
+```
