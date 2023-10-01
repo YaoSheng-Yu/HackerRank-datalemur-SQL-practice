@@ -172,3 +172,50 @@ GROUP BY C.COMPANY_CODE, C.founder
 ORDER BY C.COMPANY_CODE ASC;  
 ```
 ***Note*** When using GROUP BY in combination with aggregate functions, all the columns in the SELECT statement that aren't part of an aggregate function need to be included in the GROUP BY clause. This is to ensure determinism in the results. So you have to use GROUP BY C.COMPANY_CODE, C.founder rather than GROUP BY C.COMPANY_CODE
+
+# The PADS
+Generate the following two result sets:
+
+Query an alphabetically ordered list of all names in OCCUPATIONS, immediately followed by the first letter of each profession as a parenthetical (i.e.: enclosed in parentheses). For example: AnActorName(A), ADoctorName(D), AProfessorName(P), and ASingerName(S).
+Query the number of ocurrences of each occupation in OCCUPATIONS. Sort the occurrences in ascending order, and output them in the following format:
+
+There are a total of [occupation_count] [occupation]s.
+where [occupation_count] is the number of occurrences of an occupation in OCCUPATIONS and [occupation] is the lowercase occupation name. If more than one Occupation has the same [occupation_count], they should be ordered alphabetically.  
+
+Sample Input  
+![image](https://github.com/YaoSheng-Yu/HackerRank-SQL-practice/assets/144596901/60466814-0de0-4bed-b970-c91d093da98d)  
+
+Sample Output
+
+Ashely(P)  
+Christeen(P)  
+Jane(A)   
+Jenny(D)  
+Julia(A)  
+Ketty(P)  
+Maria(A)  
+Meera(S)  
+Priya(S)  
+Samantha(D)  
+There are a total of 2 doctors.  
+There are a total of 2 singers.  
+There are a total of 3 actors.  
+There are a total of 3 professors.  
+
+---------------------------------------
+**Solution**
+```mysql
+SELECT output  
+FROM (  
+    SELECT CONCAT(Name, '(', SUBSTRING(Occupation, 1, 1), ')' ) AS output, 1 AS order_priority  
+    FROM OCCUPATIONS   
+    UNION ALL  
+    SELECT CONCAT('There are a total of ', COUNT(Name), ' ', LOWER(Occupation), 's.' ), 2 AS order_priority  
+    FROM OCCUPATIONS  
+    GROUP BY Occupation  
+) AS derived_table  
+ORDER BY   
+    order_priority,  
+    output;  
+```
+***Note*** Adding an order_priority column to the derived table to help control the ordering. The first subquery's results have a priority of 1, and the second subquery's results have a priority of 2, ensuring that the individual names come before the counts.
