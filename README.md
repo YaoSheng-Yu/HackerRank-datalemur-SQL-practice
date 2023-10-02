@@ -281,3 +281,19 @@ WHERE LAT_N = (
     WHERE LAT_N < 137.2345  
 );  
 ```
+
+# Weather Observation Station 20 (median)
+A median is defined as a number separating the higher half of a data set from the lower half. Query the median of the Northern Latitudes (LAT_N) from STATION and round your answer to 4 decimal places.  
+
+---------------------------------------  
+**Solution**  
+```mysql  
+SELECT round(AVG(LAT_N), 4)   
+FROM (  
+    SELECT LAT_N,  
+           ROW_NUMBER() OVER (ORDER BY LAT_N) AS row_asc,  
+           ROW_NUMBER() OVER (ORDER BY LAT_N DESC) AS row_desc  
+    FROM STATION   
+) AS subquery  
+WHERE row_asc IN (row_desc, row_desc - 1, row_desc + 1);  
+```  
