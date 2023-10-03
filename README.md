@@ -297,3 +297,41 @@ FROM (
 ) AS subquery  
 WHERE row_asc IN (row_desc, row_desc - 1, row_desc + 1);  
 ```  
+
+# The Report
+Ketty gives Eve a task to generate a report containing three columns: Name, Grade and Mark. Ketty doesn't want the NAMES of those students who received a grade lower than 8. The report must be in descending order by grade -- i.e. higher grades are entered first. If there is more than one student with the same grade (8-10) assigned to them, order those particular students by their name alphabetically. Finally, if the grade is lower than 8, use "NULL" as their name and list them by their grades in descending order. If there is more than one student with the same grade (1-7) assigned to them, order those particular students by their marks in ascending order.
+
+Sample input:
+![image](https://github.com/YaoSheng-Yu/HackerRank-SQL-practice/assets/144596901/650e3c56-5caf-4694-8944-7d509b08b2bd)  
+![image](https://github.com/YaoSheng-Yu/HackerRank-SQL-practice/assets/144596901/db81d785-cc65-47a5-8ebd-ec72e0010501)  
+
+Sample output:  
+Maria 10 99  
+Jane 9 81  
+Julia 9 88   
+Scarlet 8 78  
+NULL 7 63  
+NULL 7 68  
+
+---------------------------------------  
+**Solution**  
+```mysql  
+SELECT   
+    CASE   
+        WHEN g.grade >= 8 THEN s.name   
+        ELSE NULL   
+    END AS name,  
+    g.grade,  
+    s.marks  
+FROM students s  
+INNER JOIN Grades g   
+    ON s.marks BETWEEN g.min_mark AND g.max_mark  
+ORDER BY   
+    g.grade DESC,  
+    CASE  
+        WHEN g.grade >= 8 THEN s.name  
+    END ASC,  
+    CASE  
+        WHEN g.grade < 8 THEN s.marks  
+    END ASC;  
+```  
