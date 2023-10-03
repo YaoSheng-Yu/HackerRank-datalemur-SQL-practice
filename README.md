@@ -173,7 +173,7 @@ ORDER BY C.COMPANY_CODE ASC;
 ```
 ***Note*** When using GROUP BY in combination with aggregate functions, all the columns in the SELECT statement that aren't part of an aggregate function need to be included in the GROUP BY clause. This is to ensure determinism in the results. So you have to use GROUP BY C.COMPANY_CODE, C.founder rather than GROUP BY C.COMPANY_CODE
 
-# The PADS
+# The PADS (CHAR manipulation)
 Generate the following two result sets:
 
 Query an alphabetically ordered list of all names in OCCUPATIONS, immediately followed by the first letter of each profession as a parenthetical (i.e.: enclosed in parentheses). For example: AnActorName(A), ADoctorName(D), AProfessorName(P), and ASingerName(S).
@@ -220,7 +220,7 @@ ORDER BY
 ```
 ***Note*** Adding an order_priority column to the derived table to help control the ordering. The first subquery's results have a priority of 1, and the second subquery's results have a priority of 2, ensuring that the individual names come before the counts.
 
-# The Blunder
+# The Blunder (char manipulation)
 
 Samantha was tasked with calculating the average monthly salaries for all employees in the EMPLOYEES table, but did not realize her keyboard's  key was broken until after completing the calculation. She wants your help finding the difference between her miscalculation (using salaries with any zeros removed), and the actual average salary.
 
@@ -267,7 +267,7 @@ WHERE earnings = (
 );
 ```
 
-# Weather Observation Station 15  
+# Weather Observation Station 15 
 Query the Western Longitude (LONG_W) for the largest Northern Latitude (LAT_N) in STATION that is less than 137.2345. Round your answer to 4  decimal places.
 
 ---------------------------------------
@@ -298,7 +298,7 @@ FROM (
 WHERE row_asc IN (row_desc, row_desc - 1, row_desc + 1);  
 ```  
 
-# The Report
+# The Report （CASE WHEN）
 Ketty gives Eve a task to generate a report containing three columns: Name, Grade and Mark. Ketty doesn't want the NAMES of those students who received a grade lower than 8. The report must be in descending order by grade -- i.e. higher grades are entered first. If there is more than one student with the same grade (8-10) assigned to them, order those particular students by their name alphabetically. Finally, if the grade is lower than 8, use "NULL" as their name and list them by their grades in descending order. If there is more than one student with the same grade (1-7) assigned to them, order those particular students by their marks in ascending order.
 
 Sample input:  
