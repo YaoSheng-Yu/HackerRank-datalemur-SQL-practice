@@ -352,7 +352,7 @@ Difficulty Table:
 Challenges Table:  
 ![image](https://github.com/YaoSheng-Yu/HackerRank-SQL-practice/assets/144596901/d380630f-b6bd-4cb8-a49e-62e993b41e85)  
 
-Submissions Table: 
+Submissions Table:  
 ![image](https://github.com/YaoSheng-Yu/HackerRank-SQL-practice/assets/144596901/5f47061c-78e3-4f44-a74a-fb3038c465de)  
 
 Sample Output
