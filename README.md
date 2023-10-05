@@ -337,3 +337,38 @@ ORDER BY
         WHEN g.grade < 8 THEN s.marks  
     END ASC;  
 ```  
+
+# Top Competitors  
+Julia just finished conducting a coding contest, and she needs your help assembling the leaderboard! Write a query to print the respective hacker_id and name of hackers who achieved full scores for more than one challenge. Order your output in descending order by the total number of challenges in which the hacker earned a full score. If more than one hacker received full scores in same number of challenges, then sort them by ascending hacker_id.  
+
+Sample Input
+
+Hackers Table:  
+![image](https://github.com/YaoSheng-Yu/HackerRank-SQL-practice/assets/144596901/07fc8c41-f0a9-46f0-b3ae-f892a6db8d0a)  
+
+Difficulty Table:  
+![image](https://github.com/YaoSheng-Yu/HackerRank-SQL-practice/assets/144596901/068b907c-721c-4c25-87cd-fb8d668852e1)  
+
+Challenges Table:  
+![image](https://github.com/YaoSheng-Yu/HackerRank-SQL-practice/assets/144596901/d380630f-b6bd-4cb8-a49e-62e993b41e85)  
+
+Submissions Table: 
+![image](https://github.com/YaoSheng-Yu/HackerRank-SQL-practice/assets/144596901/5f47061c-78e3-4f44-a74a-fb3038c465de)  
+
+Sample Output
+
+90411 Joe
+
+---------------------------------------  
+**Solution**  
+```mysql  
+SELECT h.hacker_id, h.name
+FROM Submissions s
+JOIN Challenges c ON s.challenge_id = c.challenge_id
+JOIN Difficulty d ON d.difficulty_level = c.difficulty_level
+JOIN Hackers h ON s.hacker_id = h.hacker_id
+WHERE s.score = d.score
+GROUP BY h.hacker_id, h.name
+HAVING COUNT(s.challenge_id) > 1
+ORDER BY COUNT(s.challenge_id) DESC, h.hacker_id; 
+```  
