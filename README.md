@@ -372,3 +372,53 @@ GROUP BY h.hacker_id, h.name
 HAVING COUNT(s.challenge_id) > 1
 ORDER BY COUNT(s.challenge_id) DESC, h.hacker_id; 
 ```  
+
+# Ollivander's Inventory  
+Harry Potter and his friends are at Ollivander's with Ron, finally replacing Charlie's old broken wand.
+
+Hermione decides the best way to choose is by determining the **minimum number of gold galleons** needed to buy each non-evil wand of high power and age. Write a query to print the id, age, coins_needed, and power of the wands that Ron's interested in, sorted in order of descending power. If more than one wand has same power, sort the result in order of descending age. （least gold needed for one combination of age and power）
+
+Sample Input  
+
+Wands Table:  
+![image](https://github.com/YaoSheng-Yu/HackerRank-SQL-practice/assets/144596901/1a069f05-5b8f-4273-b577-ffb534254a67)  
+
+Wands_Property Table:  
+![image](https://github.com/YaoSheng-Yu/HackerRank-SQL-practice/assets/144596901/a6b67537-b78d-4ac1-aed9-ac082aa23476)  
+
+
+Sample Output
+
+9 45 1647 10
+12 17 9897 10
+1 20 3688 8
+15 40 6018 7
+19 20 7651 6
+11 40 7587 5
+10 20 504 5
+18 40 3312 3
+20 17 5689 3
+5 45 6020 2
+14 40 5408 1
+
+---------------------------------------  
+**Solution**  
+```mysql  
+SELECT id, age, coins_needed, power  
+FROM (  
+    SELECT   
+        w.id,   
+        p.age,   
+        w.coins_needed,   
+        w.power,  
+        ROW_NUMBER() OVER(PARTITION BY w.power, p.age ORDER BY w.coins_needed ASC) as rnk  
+    FROM Wands w  
+    JOIN Wands_Property p ON w.code = p.code  
+    WHERE p.is_evil = 0  
+) as RankedWands  
+WHERE rnk = 1  
+ORDER BY power DESC, age DESC;   
+SELECT id, age, coins_needed, power
+```
+
+**note**: PARTITION BY w.power, p.age: This breaks the data into partitions (or groups) based on the unique combinations of w.power and p.age. It's kinda similar to group by.  It's used with **window functions** to specify the set of rows over which the window function will operate. 
