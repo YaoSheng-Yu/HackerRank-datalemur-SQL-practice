@@ -422,3 +422,50 @@ SELECT id, age, coins_needed, power
 ```
 
 **note**: PARTITION BY w.power, p.age: This breaks the data into partitions (or groups) based on the unique combinations of w.power and p.age. It's kinda similar to group by.  It's used with **window functions** to specify the set of rows over which the window function will operate. 
+
+# Challenges
+Julia asked her students to create some coding challenges. Write a query to print the hacker_id, name, and the total number of challenges created by each student. Sort your results by the total number of challenges in descending order. If more than one student created the same number of challenges, then sort the result by hacker_id. If more than one student created the same number of challenges and the count is less than the maximum number of challenges created, then exclude those students from the result.  
+
+Sample Input  
+
+Hackers Table:  
+![image](https://github.com/YaoSheng-Yu/HackerRank-SQL-practice/assets/144596901/d18fc4fd-2dfd-413d-a8ff-4c60511ce99e)  
+
+
+Challenges Table:  
+![image](https://github.com/YaoSheng-Yu/HackerRank-SQL-practice/assets/144596901/c529d4fd-bbc2-4415-bcad-87169e696d8a)
+
+Sample Output
+
+21283 Angela 6  
+88255 Patrick 5  
+96196 Lisa 1  
+
+---------------------------------------  
+**Solution**  
+```mysql  
+WITH ChallengeCounts AS (
+    SELECT hacker_id, COUNT(challenge_id) AS cnt
+    FROM Challenges
+    GROUP BY hacker_id
+)
+
+, MaxChallengeCount AS (
+    SELECT MAX(cnt) AS max_cnt
+    FROM ChallengeCounts
+)
+
+, DuplicateChallengeCounts AS (
+    SELECT cnt
+    FROM ChallengeCounts
+    GROUP BY cnt
+    HAVING COUNT(hacker_id) > 1
+)
+
+SELECT h.hacker_id, h.name, cc.cnt
+FROM Hackers h
+JOIN ChallengeCounts cc ON h.hacker_id = cc.hacker_id
+WHERE cc.cnt = (SELECT max_cnt FROM MaxChallengeCount)
+OR cc.cnt NOT IN (SELECT cnt FROM DuplicateChallengeCounts)
+ORDER BY cc.cnt DESC, h.hacker_id;
+```
