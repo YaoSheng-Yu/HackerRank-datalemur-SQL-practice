@@ -469,3 +469,53 @@ WHERE cc.cnt = (SELECT max_cnt FROM MaxChallengeCount)
 OR cc.cnt NOT IN (SELECT cnt FROM DuplicateChallengeCounts)
 ORDER BY cc.cnt DESC, h.hacker_id;
 ```
+
+# Page With No Likes [Facebook SQL Interview Question]
+Assume you're given two tables containing data about Facebook Pages and their respective likes (as in "Like a Facebook Page").
+
+Write a query to return the IDs of the Facebook pages that have zero likes. The output should be sorted in ascending order based on the page IDs.
+
+Sample Input  
+
+pages Table:  
+![image](https://github.com/YaoSheng-Yu/HackerRank-datalemur-SQL-practice/assets/144596901/9aacab33-48d3-40f3-b90f-49d8935adceb)
+
+
+page_likes Table:  
+![image](https://github.com/YaoSheng-Yu/HackerRank-datalemur-SQL-practice/assets/144596901/b124bfcb-85c3-458b-80e3-bee21bc35b6a)
+
+
+---------------------------------------  
+**Solution 1**  
+```PostgreSQL   
+WITH like_count AS (
+    SELECT page_id, COUNT(*) AS likes_num
+    FROM page_likes
+    GROUP BY page_id
+)
+
+SELECT p.page_id
+FROM pages AS p
+LEFT JOIN like_count AS l ON p.page_id = l.page_id
+WHERE l.likes_num IS NULL;
+```
+
+**note**: Using left join to find null, because pages with no likes won't show up in like_counts table
+
+**Solution 2**  
+```PostgreSQL   
+WITH like_count AS (
+    SELECT page_id, COUNT(*) AS likes_num
+    FROM page_likes
+    GROUP BY page_id
+)
+
+SELECT p.page_id, COALESCE(l.likes_num, 0) AS likes_num
+FROM pages AS p
+LEFT JOIN like_count AS l ON p.page_id = l.page_id
+WHERE COALESCE(l.likes_num, 0) = 0
+ORDER BY p.page_id;
+
+```
+
+**note**:  show 0 instead of NULL for the number of likes, you can use the COALESCE function. COALESCE returns the first non-null value in a list. By using it, you can replace NULL with 0.
