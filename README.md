@@ -519,3 +519,33 @@ ORDER BY p.page_id;
 ```
 
 **note**:  show 0 instead of NULL for the number of likes, you can use the COALESCE function. COALESCE returns the first non-null value in a list. By using it, you can replace NULL with 0.
+
+# Laptop vs. Mobile Viewership [New York Times SQL Interview Question]
+Assume you're given the table on user viewership categorised by device type where the three types are laptop, tablet, and phone.
+
+Write a query that calculates the total viewership for laptops and mobile devices where mobile is defined as the sum of tablet and phone viewership. Output the total viewership for laptops as laptop_reviews and the total viewership for mobile devices as mobile_views.
+
+Sample Input  
+
+viewership  Table:  
+![image](https://github.com/YaoSheng-Yu/HackerRank-datalemur-SQL-practice/assets/144596901/7374946a-c7de-4b74-8009-aca0ae329efa)
+
+
+
+---------------------------------------  
+**Solution 1**  
+```PostgreSQL   
+SELECT 
+  COUNT(*) FILTER (WHERE device_type = 'laptop') AS laptop_views,
+  COUNT(*) FILTER (WHERE device_type IN ('tablet', 'phone'))  AS mobile_views 
+FROM viewership;
+```
+
+**Solution 2**  
+```PostgreSQL   
+SELECT 
+  SUM(CASE WHEN device_type = 'laptop' THEN 1 ELSE 0 END) AS laptop_views, 
+  SUM(CASE WHEN device_type IN ('tablet', 'phone') THEN 1 ELSE 0 END) AS mobile_views 
+FROM viewership;
+```
+
