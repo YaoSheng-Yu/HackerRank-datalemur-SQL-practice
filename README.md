@@ -549,3 +549,41 @@ SELECT
 FROM viewership;
 ```
 
+# Duplicate Job Listings [Linkedin SQL Interview Question]
+Assume you're given a table containing job postings from various companies on the LinkedIn platform. Write a query to retrieve the count of companies that have posted duplicate job listings.
+
+Definition:
+Duplicate job listings are defined as two job listings within the same company that share identical titles and descriptions.
+
+Sample Input  
+
+job_listings Table:  
+![image](https://github.com/YaoSheng-Yu/HackerRank-datalemur-SQL-practice/assets/144596901/a68dd821-fea3-415a-bfa1-dc35cf7954d0)
+
+
+---------------------------------------  
+**Solution 1**  
+```PostgreSQL   
+WITH DuplicateJobListings AS (
+    SELECT company_id
+    FROM job_listings
+    GROUP BY company_id, title, description
+    HAVING COUNT(*) > 1
+)
+
+SELECT COUNT(DISTINCT company_id) AS duplicate_companies
+FROM DuplicateJobListings;
+```
+
+**Solution 2**  
+```PostgreSQL   
+WITH RankedJobListings AS (
+    SELECT company_id, title, description, 
+           ROW_NUMBER() OVER (PARTITION BY company_id, title, description ORDER BY id) as rn
+    FROM job_listings
+)
+SELECT COUNT(DISTINCT company_id)
+FROM RankedJobListings
+WHERE rn > 1
+```
+**note**: This approach assigns a row number within each partition of company_id, title, and description. Any row number greater than 1 indicates a duplicate.
