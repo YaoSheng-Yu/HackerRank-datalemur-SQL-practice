@@ -587,3 +587,34 @@ FROM RankedJobListings
 WHERE rn > 1
 ```
 **note**: This approach assigns a row number within each partition of company_id, title, and description. Any row number greater than 1 indicates a duplicate.
+
+# More on windows function
+
+```SQL   
+SELECT 
+    employee_id,
+    department,
+    salary,
+    RANK() OVER(PARTITION BY department ORDER BY salary DESC) AS salary_rank_by_dept,
+    DENSE_RANK() OVER(PARTITION BY department ORDER BY salary DESC) AS dense_salary_rank_by_dept,
+    ROW_NUMBER() OVER(PARTITION BY department ORDER BY salary DESC) AS row_number_by_salary,
+    LEAD(salary) OVER(PARTITION BY department ORDER BY salary) AS next_higher_salary,
+    LAG(salary) OVER(PARTITION BY department ORDER BY salary) AS prev_lower_salary,
+    FIRST_VALUE(salary) OVER(PARTITION BY department ORDER BY salary DESC) AS highest_salary_by_dept,
+    LAST_VALUE(salary) OVER(PARTITION BY department ORDER BY salary) AS lowest_salary_by_dept,
+    NTILE(4) OVER(PARTITION BY department ORDER BY salary) AS quartile_by_salary,
+    PERCENT_RANK() OVER(PARTITION BY department ORDER BY salary) AS percent_rank_by_salary,
+    CUME_DIST() OVER(PARTITION BY department ORDER BY salary) AS cumulative_dist_by_salary
+FROM 
+    employees;
+```
+**note**: 
+1. DENSE_RANK() does the same as RANK() but without gaps in the ranking sequence for ties.
+
+2. LEAD(salary) OVER(PARTITION BY department ORDER BY salary) provides the salary of the next higher-paid employee within the same department. If the current employee is the highest paid, this value will be NULL. Similar to LAG, but it is for the next lower-paid
+
+3. NTILE(4) OVER(PARTITION BY department ORDER BY salary) divides the employees in each department into 4 groups (quartiles) based on salary. 
+
+4. PERCENT_RANK() OVER(PARTITION BY department ORDER BY salary) calculates the percentage rank of each employee's salary within their department.
+
+5. CUME_DIST() OVER(PARTITION BY department ORDER BY salary) computes the cumulative distribution of salaries within each department.
