@@ -618,3 +618,28 @@ FROM
 4. PERCENT_RANK() OVER(PARTITION BY department ORDER BY salary) calculates the percentage rank of each employee's salary within their department.
 
 5. CUME_DIST() OVER(PARTITION BY department ORDER BY salary) computes the cumulative distribution of salaries within each department.
+
+# On Time
+```PostgreSQL
+-- CAST function convert one data type into another. In this context, it's converting a timestamp into just a date
+SELECT CAST(timestamp AS DATE) FROM table;
+
+--DATE function
+SELECT DATE(timestamp) FROM table;
+
+-- CONVERT function
+SELECT CONVERT(DATE, timestamp) FROM table;
+
+-- YEAR and MONTH Functions
+SELECT *
+FROM your_table
+WHERE YEAR(timestamp) = 2022
+AND MONTH(timestamp) = 8;
+
+-- FORMAT function (or TO_CHAR in PostgreSQL)
+SELECT *
+FROM table
+WHERE FORMAT(timestamp, 'yyyy-MM') = '2022-08';
+
+
+```
