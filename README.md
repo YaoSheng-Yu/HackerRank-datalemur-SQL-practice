@@ -619,6 +619,29 @@ FROM
 
 5. CUME_DIST() OVER(PARTITION BY department ORDER BY salary) computes the cumulative distribution of salaries within each department.
 
+# User's Third Transaction [Uber SQL Interview Question] (Windows Function Application)
+Assume you are given the table below on Uber transactions made by users. Write a query to obtain the third transaction of every user. Output the user id, spend and transaction date.
+
+Sample Input  
+
+transactions Table:  
+![image](https://github.com/YaoSheng-Yu/HackerRank-datalemur-SQL-practice/assets/144596901/8955adbc-88f0-4bf4-8618-914cf88db044)
+
+---------------------------------------  
+**Solution**  
+```PostgreSQL   
+SELECT user_id, spend, transaction_date
+FROM(
+  SELECT 
+    user_id, 
+    spend, 
+    transaction_date,
+    ROW_NUMBER() OVER(PARTITION BY user_id ORDER BY transaction_date ASC) AS trans_num
+  FROM transactions
+) temp
+WHERE temp.trans_num = 3;
+```
+
 # On Time
 ```PostgreSQL
 -- CAST function convert one data type into another. In this context, it's converting a timestamp into just a date
@@ -640,6 +663,4 @@ AND MONTH(timestamp) = 8;
 SELECT *
 FROM table
 WHERE FORMAT(timestamp, 'yyyy-MM') = '2022-08';
-
-
 ```
