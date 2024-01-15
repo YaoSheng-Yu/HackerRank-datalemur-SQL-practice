@@ -695,3 +695,35 @@ SELECT
 FROM tweets;
 ```
 **note**: The ROWS BETWEEN 2 PRECEDING AND CURRENT ROW part tells PostgreSQL to consider the current row and the two rows preceding the current row within the same partition when calculating the average. 
+
+# Highest-Grossing Items [Amazon SQL Interview Question] (Windows Function)
+
+Assume you're given a table containing data on Amazon customers and their spending on products in different category, write a query to identify the top two highest-grossing products within each category in the year 2022. The output should include the category, product, and total spend.
+
+Sample Input  
+
+product_spend Table:  
+![image](https://github.com/YaoSheng-Yu/HackerRank-datalemur-SQL-practice/assets/144596901/fc785929-2f60-4324-9fb7-bea7270189e2)
+
+---------------------------------------  
+**Solution**  
+```PostgreSQL   
+WITH ranked_spend AS (
+  SELECT 
+    category, 
+    product, 
+    SUM(spend) as total_spend,
+    DENSE_RANK() OVER(PARTITION BY category ORDER BY SUM(spend) DESC) as ranking
+  FROM product_spend
+  WHERE EXTRACT(YEAR FROM transaction_date) = 2022
+  GROUP BY category, product
+)
+SELECT 
+  category,
+  product,
+  total_spend
+FROM ranked_spend
+WHERE ranking <=2
+ORDER BY category, ranking;
+```
+
