@@ -727,3 +727,34 @@ WHERE ranking <=2
 ORDER BY category, ranking;
 ```
 
+# Supercloud Customer [Microsoft SQL Interview Question]
+
+A Microsoft Azure Supercloud customer is defined as a company that purchases at least one product from each product category.
+
+Write a query that effectively identifies the company ID of such Supercloud customers.
+
+Sample Input  
+
+customer_contracts Table:  
+![image](https://github.com/YaoSheng-Yu/HackerRank-datalemur-SQL-practice/assets/144596901/de1b4183-f512-4947-8c9e-37fbb5eea286)
+
+products Table:  
+![image](https://github.com/YaoSheng-Yu/HackerRank-datalemur-SQL-practice/assets/144596901/78f43d4a-d60f-4d63-9de0-7909695e2a17)
+
+---------------------------------------  
+**Solution**  
+```PostgreSQL   
+WITH category_count AS(
+SELECT COUNT(DISTINCT(product_category)) AS cat_count
+FROM products 
+)
+
+
+SELECT customer_id 
+FROM customer_contracts cc
+JOIN products p ON cc.product_id = p.product_id
+GROUP BY customer_id
+HAVING COUNT(DISTINCT(product_category)) = (SELECT cat_count FROM category_count);
+```
+
+**Note**: Use CTE to find how many total categories are there, and then find such customers with the same amount of distinct customer
