@@ -758,3 +758,41 @@ HAVING COUNT(DISTINCT(product_category)) = (SELECT cat_count FROM category_count
 ```
 
 **Note**: Use CTE to find how many total categories are there, and then find such customers with the same amount of distinct customer
+
+# 1280. Students And Examinations (CROSS JOIN)
+
+Write a solution to find the number of times each student attended each exam.
+
+Return the result table ordered by student_id and subject_name.
+
+Sample Input  
+
+![image](https://github.com/YaoSheng-Yu/HackerRank-datalemur-SQL-practice/assets/144596901/8435309a-8777-46b7-87a1-f95b14d8f55b)
+![image](https://github.com/YaoSheng-Yu/HackerRank-datalemur-SQL-practice/assets/144596901/89f225df-1f12-4139-83b5-1be1b233ecbb)
+
+
+Sample Output:  
+![image](https://github.com/YaoSheng-Yu/HackerRank-datalemur-SQL-practice/assets/144596901/f168a646-d0c5-451a-ad59-27b3c5b8b6f9)
+
+---------------------------------------  
+**Solution**  
+```PostgreSQL   
+WITH CTE1 AS(
+    SELECT st.student_id, st.student_name, sb.subject_name
+    FROM Students st
+    CROSS JOIN Subjects sb
+),
+
+CTE2 AS(
+    SELECT ex.student_id, ex. subject_name, COUNT(*) AS attended_exams 
+    FROM Examinations ex
+    GROUP BY ex.student_id, ex.subject_name
+)
+
+SELECT CTE1.student_id, CTE1.student_name, CTE1.subject_name, COALESCE(CTE2.attended_exams, 0) AS attended_exams 
+FROM CTE1
+LEFT JOIN CTE2 ON CTE1.student_id = CTE2.student_id AND CTE1.subject_name = CTE2.subject_name
+ORDER BY CTE1.student_id, CTE1.subject_name
+ 
+```
+
